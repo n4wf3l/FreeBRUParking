@@ -45,6 +45,29 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         database.close();
     }
 
+    //public int editPlace(Place place){
+      //  SQLiteDatabase database = this.getWritableDatabase();
+        //ContentValues contentValues = new ContentValues();
+        //contentValues.put(Utils.LATITUDE , place.getPlatitude());
+        //contentValues.put(Utils.LONGITUDE , place.getPlongitude());
+        //contentValues.put(Utils.TITLE , place.getTitle());
+
+        //int result =  database.update(Utils.TABLE_NAME, contentValues,
+          //      Utils.TITLE+ "=?",
+            //    new String[]{String.valueOf(place.getTitle())});
+        //database.close();
+        //return result;
+    //}
+
+    public void editPlace(Place place){
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Utils.TITLE, place.getTitle());
+
+        database.update(Utils.TABLE_NAME, contentValues, Utils.KEY_ID + " = " +new String[]{String.valueOf(place.getId())}, null);
+        database.close();
+    }
+
     public List<Place> getAllPlaces(){
         SQLiteDatabase database = this.getReadableDatabase();
         List<Place>placeList = new ArrayList<>();
@@ -54,9 +77,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             do{
                 Place place = new Place();
                 place.setId(cursor.getInt(0));
-                place.setPlatitude(cursor.getString(0));
-                place.setPlongitude(cursor.getString(0));
-                place.setTitle(cursor.getString(0));
+                place.setPlatitude(cursor.getString(1));
+                place.setPlongitude(cursor.getString(2));
+                place.setTitle(cursor.getString(3));
                 placeList.add(place);
             }while(cursor.moveToNext());
         }
@@ -72,8 +95,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         public void deletePlace(Place place){
         SQLiteDatabase database = this.getWritableDatabase();
-        database.delete(Utils.TABLE_NAME, Utils.KEY_ID+ "=?",
-                new String[]{String.valueOf(place.getId())});
+        database.delete(Utils.TABLE_NAME, Utils.TITLE+ "=?",
+                new String[]{String.valueOf(place.getTitle())});
         database.close();
     }
 }
