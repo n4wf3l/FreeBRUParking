@@ -50,11 +50,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LatLng Parking_Ceria = new LatLng(50.8159457230718, 4.288435421577517);
     private LatLng Parking_Hermann = new LatLng(50.812655068316644, 4.43123126551602);
     private LatLng Parking_Stjosse = new LatLng(50.855947436306884, 4.363790493668);
-    private LatLng Parking_Ukkel = new LatLng(    50.794288260250184, 4.319323476567937);
-    private LatLng Parking_Auderghem = new LatLng(      50.816313101340555, 4.4058846279915285);
-    private LatLng Parking_Roodebeek = new LatLng(          50.84863726005167, 4.435640664804507);
-    private LatLng Parking_RoutedeLennik = new LatLng(              50.81507580407859, 4.268509348018117);
+    private LatLng Parking_Ukkel = new LatLng(50.794288260250184, 4.319323476567937);
+    private LatLng Parking_Auderghem = new LatLng(50.816313101340555, 4.4058846279915285);
+    private LatLng Parking_Roodebeek = new LatLng(50.84863726005167, 4.435640664804507);
+    private LatLng Parking_RoutedeLennik = new LatLng(50.81507580407859, 4.268509348018117);
     private LatLng Parking_Etterbeek = new LatLng(50.83767085974242, 4.382174717471488);
+    private LatLng Parking_Jette = new LatLng(50.88474950972838, 4.306207168769517);
+    private LatLng Parking_TourEtTaxis = new LatLng(50.86507223671438, 4.346777011979735);
 
     private Marker mParking_Bordet;
     private Marker mParking_Tilleul;
@@ -66,19 +68,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Marker mParking_Roodebeek;
     private Marker mParking_RoutedeLennik;
     private Marker mParking_Etterbeek;
+    private Marker mParking_Jette;
+    private Marker mParking_TourEtTaxis;
 
     private ActivityMapsBinding binding;
     Location currentLocation;
     FusedLocationProviderClient fusedLocationProviderClient;
-    private static final int REQUEST_CODE=101;
+    private static final int REQUEST_CODE = 101;
+    public static final int REQUEST_CODE_LOCATION = 1;
+    private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        fusedLocationProviderClient= LocationServices.getFusedLocationProviderClient(this);
-        getCurrentLocation();
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        // Authorization voor CurrentLocation
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION);
+        } else {
+            getCurrentLocation();
+        }
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -100,27 +113,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         db = new DatabaseHandler(this);
         mMap.setOnMarkerClickListener(this);
         mMap.setOnMapLongClickListener(this);
-        if(currentLocation!= null){
+        if (currentLocation != null) {
             LatLng brussels = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
             mMap.addMarker(new MarkerOptions().position(brussels).title("Current Location"));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(brussels));
         }
 
+
         List<Marker> markerList = new ArrayList<>();
         List<Place> placeList = db.getAllPlaces();
 
-        for (Place p:placeList){
+        for (Place p : placeList) {
             String myInfo = "ID: " + p.getId() + " Latitude: " + p.getPlatitude() + "Longitude" + p.getPlongitude() + "Title: " + p.getTitle();
             Log.d("myInfo", myInfo);
 
             markerList.add(mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(Double.parseDouble(p.getPlatitude())
-                    ,Double.parseDouble(p.getPlongitude()))).title(p.getTitle())));
+                            , Double.parseDouble(p.getPlongitude()))).title(p.getTitle())));
         }
 
         mParking_Bordet = mMap.addMarker(new MarkerOptions()
                 .position(Parking_Bordet).title("Parking Bordet")
-        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
         mParking_Bordet.setTag(0);
         markerList.add(mParking_Bordet);
 
@@ -178,59 +192,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mParking_Etterbeek.setTag(0);
         markerList.add(mParking_Etterbeek);
 
+        mParking_Jette = mMap.addMarker(new MarkerOptions()
+                .position(Parking_Jette).title("Parking Jette")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+        mParking_Jette.setTag(0);
+        markerList.add(mParking_Jette);
+
+        mParking_TourEtTaxis = mMap.addMarker(new MarkerOptions()
+                .position(Parking_TourEtTaxis).title("Parking Tour et Taxis")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+        mParking_TourEtTaxis.setTag(0);
+        markerList.add(mParking_TourEtTaxis);
+
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         mMap.setOnMarkerClickListener(this);
 
-        for(Marker m : markerList){
+        for (Marker m : markerList) {
             LatLng latLng = new LatLng(50.868611733172834, 4.343448043452961);
             mMap.addMarker(new MarkerOptions().position(latLng));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
         }
     }
 
-    private void getCurrentLocation(){
-        if (ActivityCompat.checkSelfPermission(
-                this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED){
+    private void getCurrentLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
             return;
         }
         Task<Location> task = fusedLocationProviderClient.getLastLocation();
         task.addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
-            public void onSuccess(@NonNull @org.jetbrains.annotations.NotNull Location location) {
-                if(location!= null){
-                    currentLocation=location;
-                    Toast.makeText(getApplicationContext(), (int) currentLocation.getLatitude(),Toast.LENGTH_LONG).show();
-                    SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-                    mapFragment.getMapAsync(MapsActivity.this);
+            public void onSuccess(@NonNull Location location) {
+                if (location != null) {
+                    currentLocation = location;
+                    LatLng userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    mMap.addMarker(new MarkerOptions().position(userLatLng).title("Your Location"));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 15));
                 }
             }
         });
-        LocationRequest mLocationRequest = LocationRequest.create();
-        mLocationRequest.setInterval(60000);
-        mLocationRequest.setFastestInterval(5000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        LocationCallback mLocationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                Toast.makeText(getApplicationContext()," location result is  " + locationResult, Toast.LENGTH_LONG).show();
-
-                if (locationResult == null) {
-                    Toast.makeText(getApplicationContext(),"current location is null ", Toast.LENGTH_LONG).show();
-
-                    return;
-                }
-                for (Location location : locationResult.getLocations()) {
-                    if (location != null) {
-                        Toast.makeText(getApplicationContext(),"current location is " + location.getLongitude(), Toast.LENGTH_LONG).show();
-
-                        //TODO: UI updates.
-                    }
-                }
-            }
-        };
         task.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
@@ -241,12 +241,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-       // Toast.makeText(this,marker.getPosition().toString(),Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this,marker.getPosition().toString(),Toast.LENGTH_SHORT).show();
         //return false;
         Intent intent = new Intent(MapsActivity.this, ShowActivity.class);
-        intent.putExtra("latitude" , marker.getPosition().latitude);
-        intent.putExtra("longitude" , marker.getPosition().longitude);
-        intent.putExtra("title" , marker.getTitle());
+        intent.putExtra("latitude", marker.getPosition().latitude);
+        intent.putExtra("longitude", marker.getPosition().longitude);
+        intent.putExtra("title", marker.getTitle());
         startActivity(intent);
         return false;
     }
@@ -254,10 +254,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapLongClick(LatLng latLng) {
         mMap.addMarker(new MarkerOptions().position(latLng).title("new Marker")
-               .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
         Intent intent = new Intent(MapsActivity.this, AddActivity.class);
-        intent.putExtra("latitude" , latLng.latitude);
-        intent.putExtra("longitude" , latLng.longitude);
+        intent.putExtra("latitude", latLng.latitude);
+        intent.putExtra("longitude", latLng.longitude);
         startActivity(intent);
     }
 
@@ -265,9 +265,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
-            case REQUEST_CODE:
+            case REQUEST_CODE_LOCATION_PERMISSION:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getCurrentLocation();
+                } else {
+                    Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
