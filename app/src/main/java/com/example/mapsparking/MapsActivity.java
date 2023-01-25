@@ -119,7 +119,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.moveCamera(CameraUpdateFactory.newLatLng(brussels));
         }
 
-
+        mMap.getUiSettings().setZoomControlsEnabled(true);
         List<Marker> markerList = new ArrayList<>();
         List<Place> placeList = db.getAllPlaces();
 
