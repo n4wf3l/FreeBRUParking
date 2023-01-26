@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="- De blauwe marker"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:textColor="#0000ff"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" staan voor al onze 100% gratis-parkingen."
+        android:textSize="20sp"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="- De gele marker"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:textColor="#FFFF00"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" laat uw huidige positie op de kaart zien. Hij volgt u overal waar je gaat."
+        android:textSize="20sp"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="- De rode markers"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:textColor="#EA4335"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="zijn alle gratis-parkingen die toegevoegd worden door users."
+        android:textSize="20sp"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BRUParking is ontworpen door ontwikkelaar Nawfel Ajari, in samenwerking met Professor David van Steertegem, een expert op het gebied van Android Studio. Veel mensen die geen garage hebben en op vakantie gaan, hebben vaak moeite om een geschikte parkeerplaats te vinden. Deze app is ontworpen om de community te helpen bij het vinden van gratis parkeerplaatsen in de regio Brussel."
+        android:textSize="15sp"
+        android:gravity="center"
+        android:layout_marginTop="50dp"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logobruparkingtext"
+        android:layout_gravity="center"
+        />
+
+</LinearLayout>
+

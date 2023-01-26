@@ -35,6 +35,15 @@
         </activity>
 
         <activity
+            android:name=".InfoActivity"
+            android:label="Free BRU-PARKING"
+            android:parentActivityName=".MapsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MapsActivity"/>
+        </activity>
+
+        <activity
             android:name=".EditActivity"
             android:exported="false">
             <meta-data

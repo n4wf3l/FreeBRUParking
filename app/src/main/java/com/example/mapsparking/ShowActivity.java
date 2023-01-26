@@ -30,7 +30,9 @@ public class ShowActivity extends AppCompatActivity {
             longitude = findViewById(R.id.textViewlongitude);
             title = findViewById(R.id.textViewName);
             delete = findViewById(R.id.buttonDelete);
-            edit = findViewById(R.id.buttonEdit);
+
+            //edit = findViewById(R.id.buttonEdit);
+
 
             db = new DatabaseHandler(this);
             extras = getIntent().getExtras();
@@ -64,18 +66,18 @@ public class ShowActivity extends AppCompatActivity {
 
             });
 
-            edit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(ShowActivity.this, EditActivity.class);
-                    intent.putExtra("id" , num);
-                    intent.putExtra("title" , title.getText().toString());
-                    intent.putExtra("latitude" , latitude.getText().toString());
-                    intent.putExtra("longitude" , longitude.getText().toString());
+          //  edit.setOnClickListener(new View.OnClickListener() {
+            //    @Override
+              //  public void onClick(View v) {
+                //    Intent intent = new Intent(ShowActivity.this, EditActivity.class);
+                  //  intent.putExtra("id" , num);
+                    //intent.putExtra("title" , title.getText().toString());
+                    //intent.putExtra("latitude" , latitude.getText().toString());
+                    //intent.putExtra("longitude" , longitude.getText().toString());
 
-                    startActivity(intent);
-                }
-            });
+                    //startActivity(intent);
+                //}
+            //});
 
         }
     }

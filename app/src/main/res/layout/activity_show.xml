@@ -22,7 +22,7 @@
         android:textAlignment="center"
         android:padding="16dp"
         />
-
+<!--
     <Button
         android:id="@+id/buttonEdit"
         android:layout_width="wrap_content"
@@ -37,21 +37,26 @@
         android:textSize="15sp"
         android:padding="16dp"
         />
+        -->
 
     <Button
         android:id="@+id/buttonDelete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delete"
-        app:layout_constraintStart_toEndOf="@+id/buttonEdit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewName"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintVertical_bias="0.5"
-        android:textSize="15sp"
         android:padding="16dp"
-        />
+        android:text="Delete"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewName"
+        app:layout_constraintVertical_bias="0.5" />
+
+        <!--
+        app:layout_constraintStart_toEndOf="@+id/buttonEdit"
+-->
+
 
     <TextView
         android:id="@+id/textViewlatitude"
@@ -72,15 +77,14 @@
         android:id="@+id/textViewlongitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Longitude"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewlatitude"
-        app:layout_constraintHorizontal_bias="0.5"
-        android:textSize="12sp"
-        android:textAlignment="center"
         android:gravity="center"
         android:padding="16dp"
-        />
+        android:text="Longitude"
+        android:textAlignment="center"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewlatitude"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 

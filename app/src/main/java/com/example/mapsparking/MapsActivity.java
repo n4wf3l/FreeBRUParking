@@ -10,6 +10,8 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +43,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     DatabaseHandler db;
+    private Button infoButton;
 
     ProgressBar progressBar;
     TextView textView;
@@ -91,10 +94,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else {
             getCurrentLocation();
         }
-
+        // De Map zelf
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        // ButtonInfo
+        Button infoButton = findViewById(R.id.infoButton);
+        infoButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(MapsActivity.this,InfoActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
